@@ -250,6 +250,42 @@ namespace Kursovaya_dotNET
                 
             }
         }
+
+        private void label_in_point_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addWaysCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_Points_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainPicture_SizeChanged(object sender, EventArgs e)
+        {
+            if(this.Size.Width > 0)
+            graph.Redraw(MainPicture);
+        }
     }
 }
     

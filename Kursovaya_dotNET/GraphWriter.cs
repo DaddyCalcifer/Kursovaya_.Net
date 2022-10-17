@@ -35,6 +35,13 @@ namespace Kursovaya_dotNET
             WaysList = ways_l;
             bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
         }
+        public void Redraw(PictureBox pic)
+        {
+            MainPicture.Width = pic.Width;
+            bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
+            DrawWays();
+            DrawPoints();
+        }
         public void DrawPoint(Pen pen, Rectangle rect, int ind, bool isNew = true)
         {
             if (isNew)
