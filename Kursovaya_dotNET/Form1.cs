@@ -154,7 +154,7 @@ namespace Kursovaya_dotNET
             {
                 if (graph.on_this_point != -1)
                 {
-                    graph.SelectPoint(graph.Points, graph.on_this_point);
+                    graph.SelectPoint(graph.on_this_point);
                     graph.PointsList.SelectedIndex = graph.on_this_point;
                 }
             }
@@ -164,7 +164,7 @@ namespace Kursovaya_dotNET
                 {
                     if(graph.on_this_point != -1)
                     {
-                        graph.DrawWay(graph.Points[graph.first_point], graph.Points[graph.on_this_point],graph.MainPicture);
+                        graph.DrawWay(graph.Points[graph.first_point], graph.Points[graph.on_this_point]);
                         graph.on_this_point = -1;
                         graph.first_point = -1;
                         graph.PointsList.ClearSelected();
@@ -178,20 +178,18 @@ namespace Kursovaya_dotNET
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            graph.ClearPoints(graph.MainPicture, graph.PointsList, graph.Points);
+            graph.ClearPoints();
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            graph.DrawPoints(graph.MainPicture, graph.Points);
+            graph.DrawPoints();
         }
         private void button3_Click(object sender, EventArgs e) //Удаление вершины
         {
             var tpoint = graph.Points[graph.PointsList.SelectedIndex];
             foreach(var way in tpoint.ways)
             {
-                //way.Begin.ways.Remove(way);
-                //way.End.ways.Remove(way);
-                graph.RemoveWay(graph.Ways, way);
+                graph.RemoveWay(way);
             }
             graph.Points.RemoveAt(graph.PointsList.SelectedIndex);
             graph.PointsList.Items.Clear();
@@ -200,9 +198,9 @@ namespace Kursovaya_dotNET
                 graph.PointsList.Items.Add("Точка " + (item.Number + 1).ToString()
                     + " (" + (item.X).ToString() + "; " + (item.Y).ToString() + ")");
             }
-            graph.ClearPoints(graph.MainPicture, graph.PointsList, graph.Points,true);
-            graph.DrawPoints(graph.MainPicture, graph.Points);
-            graph.DrawWays(graph.MainPicture, graph.Ways);
+            graph.ClearPoints(true);
+            graph.DrawPoints();
+            graph.DrawWays();
             button3.Enabled = false;
         }
         private void PointsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,17 +208,16 @@ namespace Kursovaya_dotNET
             if (graph.PointsList.SelectedIndex >= 0)
             {
                 button3.Enabled = true;
-                graph.SelectPoint(graph.Points, graph.PointsList.SelectedIndex);
+                graph.SelectPoint(graph.PointsList.SelectedIndex);
                 graph.WaysList.ClearSelected();
             }
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            //graph.DrawWay(graph.Points[0], graph.Points[1], graph.MainPicture);
         }
         private void button5_Click(object sender, EventArgs e)
         {
-            graph.RemoveWay(graph.Ways, graph.WaysList.SelectedIndex);
+            graph.RemoveWay(graph.WaysList.SelectedIndex);
         }
         private void WaysList_SelectedIndexChanged(object sender, EventArgs e)
         {

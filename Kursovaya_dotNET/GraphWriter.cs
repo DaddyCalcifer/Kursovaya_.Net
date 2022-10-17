@@ -50,44 +50,44 @@ namespace Kursovaya_dotNET
             g.DrawString((ind + 1).ToString(), SystemFonts.MenuFont, Brushes.White, new PointF((float)rect.X + radius / 4f, (float)rect.Y + radius / 4f));
             MainPicture.Image = bmp;
         }
-        public void ClearPoints(PictureBox pic, ListBox box, List<PointCH> points, bool GraphOnly = false)
+        public void ClearPoints(bool GraphOnly = false)
         {
-            bmp = new Bitmap(pic.Width, pic.Height);
-            pic.Image = bmp;
+            bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
+            MainPicture.Image = bmp;
             if (GraphOnly == false)
             {
-                points.Clear();
-                box.Items.Clear();
+                Points.Clear();
+                PointsList.Items.Clear();
                 Ways.Clear();
                 WaysList.Items.Clear();
             }
         }
-        public void RedrawGraph(PictureBox pic, List<PointCH> points, List<Way> ways_)
+        public void RedrawGraph()
         {
-            bmp = new Bitmap(pic.Width, pic.Height);
-            pic.Image = bmp;
-            DrawPoints(pic, points);
-            DrawWays(pic, ways_);
+            bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
+            MainPicture.Image = bmp;
+            DrawPoints();
+            DrawWays();
         }
-        public void DrawPoints(PictureBox pic, List<PointCH> points)
+        public void DrawPoints()
         {
-            foreach (PointCH item in points)
+            foreach (PointCH item in Points)
             {
                 DrawPoint(pen, new Rectangle(item.X - radius / 2, item.Y - radius / 2, radius, radius), item.Number, false);
             }
         }
-        public void DrawWays(PictureBox pic, List<Way> ways_)
+        public void DrawWays()
         {
             foreach (Way item in Ways)
             {
-                DrawWay(item.Begin, item.End, pic, true);
+                DrawWay(item.Begin, item.End, true);
             }
         }
-        public void SelectPoint(List<PointCH> pts, int index)
+        public void SelectPoint(int index)
         {
             if (index >= 0)
             {
-                var item = pts[index];
+                var item = Points[index];
                 foreach (var point in Points)
                     DrawPoint(pen, new Rectangle(point.X - radius / 2, point.Y - radius / 2, radius, radius), point.Number, false);
                 DrawPoint(pen_selected, new Rectangle(item.X - radius / 2, item.Y - radius / 2, radius, radius), item.Number, false);
@@ -95,10 +95,10 @@ namespace Kursovaya_dotNET
             else
             {
                 PointsList.ClearSelected();
-                DrawPoints(MainPicture, Points);
+                DrawPoints();
             }
         }
-        public void DrawWay(PointCH start, PointCH end, PictureBox pic, bool GraphOnly = false)
+        public void DrawWay(PointCH start, PointCH end, bool GraphOnly = false)
         {
             if (start != end)
             {
@@ -119,29 +119,27 @@ namespace Kursovaya_dotNET
                 DrawPoint(pen, new Rectangle(start.X - radius / 2, start.Y - radius / 2, radius, radius), start.Number, false);
                 DrawPoint(pen, new Rectangle(end.X - radius / 2, end.Y - radius / 2, radius, radius), end.Number, false);
                 //
-                pic.Image = bmp;
+                MainPicture.Image = bmp;
             }
         }
-        public void RemoveWay(List<Way> ways, int index)
+        public void RemoveWay(int index)
         {
-            ways.RemoveAt(index);
+            Ways.RemoveAt(index);
             WaysList.Items.Clear();
-            foreach (var item in ways)
+            foreach (var item in Ways)
             {
                 WaysList.Items.Add((item.Begin.Number + 1).ToString() + " <-> " + (item.End.Number + 1).ToString());
             }
-            //button5.Enabled = false;
-            RedrawGraph(MainPicture, Points, Ways);
+            RedrawGraph();
         }
-        public void RemoveWay(List<Way> ways, Way way)
+        public void RemoveWay(Way way)
         {
-            ways.Remove(way);
+            Ways.Remove(way);
             WaysList.Items.Clear();
-            foreach (var item in ways)
+            foreach (var item in Ways)
             {
                 WaysList.Items.Add((item.Begin.Number + 1).ToString() + " <-> " + (item.End.Number + 1).ToString());
             }
-            //button5.Enabled = false;
         }
     }
 }
