@@ -13,22 +13,10 @@ namespace Kursovaya_dotNET
     public partial class Form1 : Form
     {
         GraphWriter graph;
-        //Bitmap bmp;
-
-        //Pen pen = new Pen(Color.Black, 20);
-        //Pen pen_selected = new Pen(Color.CadetBlue, 20);
-        //Pen pen_way = new Pen(Color.Green, 7);
-
-        //int radius = 20, on_this_point = -1;
-
-        //List<PointCH>  Points = new List<PointCH> ();
-        //List<Way> Ways = new List<Way> ();
-        //int first_point=-1;
-        //
         public Form1()
         {
             InitializeComponent();
-            //bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            this.WindowState = FormWindowState.Maximized;
             graph = new GraphWriter(MainPicture,PointsList,WaysList);
         }
         /*
@@ -186,21 +174,7 @@ namespace Kursovaya_dotNET
         }
         private void button3_Click(object sender, EventArgs e) //Удаление вершины
         {
-            var tpoint = graph.Points[graph.PointsList.SelectedIndex];
-            foreach(var way in tpoint.ways)
-            {
-                graph.RemoveWay(way);
-            }
-            graph.Points.RemoveAt(graph.PointsList.SelectedIndex);
-            graph.PointsList.Items.Clear();
-            foreach (var item in graph.Points)
-            {
-                graph.PointsList.Items.Add("Точка " + (item.Number + 1).ToString()
-                    + " (" + (item.X).ToString() + "; " + (item.Y).ToString() + ")");
-            }
-            graph.ClearPoints(true);
-            graph.DrawPoints();
-            graph.DrawWays();
+            graph.RemovePoint(PointsList.SelectedIndex);
             button3.Enabled = false;
         }
         private void PointsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -283,7 +257,7 @@ namespace Kursovaya_dotNET
 
         private void MainPicture_SizeChanged(object sender, EventArgs e)
         {
-            if(this.Size.Width > 0)
+            if(this.WindowState != FormWindowState.Minimized)
             graph.Redraw(MainPicture);
         }
     }

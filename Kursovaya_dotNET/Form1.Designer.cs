@@ -50,7 +50,7 @@
             this.MainPicture.BackColor = System.Drawing.Color.White;
             this.MainPicture.Location = new System.Drawing.Point(12, 32);
             this.MainPicture.Name = "MainPicture";
-            this.MainPicture.Size = new System.Drawing.Size(602, 545);
+            this.MainPicture.Size = new System.Drawing.Size(602, 552);
             this.MainPicture.TabIndex = 0;
             this.MainPicture.TabStop = false;
             this.MainPicture.SizeChanged += new System.EventHandler(this.MainPicture_SizeChanged);
@@ -162,7 +162,7 @@
             this.WaysList.ItemHeight = 24;
             this.WaysList.Location = new System.Drawing.Point(630, 357);
             this.WaysList.Name = "WaysList";
-            this.WaysList.Size = new System.Drawing.Size(191, 220);
+            this.WaysList.Size = new System.Drawing.Size(191, 196);
             this.WaysList.TabIndex = 10;
             this.WaysList.SelectedIndexChanged += new System.EventHandler(this.WaysList_SelectedIndexChanged);
             // 
@@ -170,7 +170,7 @@
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(630, 585);
+            this.button5.Location = new System.Drawing.Point(630, 559);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(191, 25);
             this.button5.TabIndex = 12;
@@ -196,7 +196,6 @@
             this.Controls.Add(this.MainPicture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.HelpButton = true;
-            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

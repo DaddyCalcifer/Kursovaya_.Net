@@ -148,5 +148,24 @@ namespace Kursovaya_dotNET
                 WaysList.Items.Add((item.Begin.Number + 1).ToString() + " <-> " + (item.End.Number + 1).ToString());
             }
         }
+        public void RemovePoint(int index)
+        {
+            var tpoint = Points[index];
+            foreach (var way in tpoint.ways)
+            {
+                RemoveWay(way);
+            }
+            Points.RemoveAt(index);
+            PointsList.Items.Clear();
+            foreach (var item in Points)
+            {
+                PointsList.Items.Add("Точка " + (item.Number + 1).ToString()
+                    + " (" + (item.X).ToString() + "; " + (item.Y).ToString() + ")");
+            }
+            ClearPoints(true);
+            DrawPoints();
+            DrawWays();
+            first_point = -1;
+        }
     }
 }
