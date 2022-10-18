@@ -59,6 +59,7 @@ namespace Kursovaya_dotNET
         }
         public void ClearPoints(bool GraphOnly = false)
         {
+            bmp.Dispose();
             bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
             MainPicture.Image = bmp;
             if (GraphOnly == false)
@@ -71,6 +72,7 @@ namespace Kursovaya_dotNET
         }
         public void RedrawGraph()
         {
+            bmp.Dispose();
             bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
             MainPicture.Image = bmp;
             DrawPoints();

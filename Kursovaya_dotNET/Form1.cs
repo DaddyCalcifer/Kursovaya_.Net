@@ -260,6 +260,19 @@ namespace Kursovaya_dotNET
             if(this.WindowState != FormWindowState.Minimized)
             graph.Redraw(MainPicture);
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                //if(graph.PointsList.SelectedIndex >= 0)
+                    graph.RemovePoint(graph.PointsList.SelectedIndex);
+                if(graph.WaysList.SelectedIndex >= 0)
+                    graph.RemoveWay(graph.WaysList.SelectedIndex);
+            }
+            if (e.KeyCode == Keys.Space)
+                MessageBox.Show("xuq");
+        }
     }
 }
     
