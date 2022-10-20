@@ -195,6 +195,7 @@ namespace Kursovaya_dotNET
         private void button5_Click(object sender, EventArgs e)
         {
             graph.RemoveWay(graph.WaysList.SelectedIndex);
+            button5.Enabled = false;
         }
         private void WaysList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -281,8 +282,15 @@ namespace Kursovaya_dotNET
         private void button2_Click_1(object sender, EventArgs e)
         {
             //MessageBox.Show("Точка 1 связана с точкой 2 через: " + graph.Points[0].ConnectedVia(graph.Points[1]));
-            if(graph.Points.Count >0)
-            graph.FindIndependentSets();
+            List<List<PointCH>> sets = new List<List<PointCH>>();
+            if (graph.Points.Count > 0)
+            {
+                //graph.FindIndependentSets(null, 1);
+                for (int i = 0; i < graph.Points.Count; i++)
+                {
+                    sets.Add(graph.FindIndependentSets(null,i));
+                }
+            }
         }
     }
 }

@@ -225,10 +225,20 @@ namespace Kursovaya_dotNET
                 if(i != index_)
                     set= FindIndependentSets(pts[i], set);
             }
-            foreach(var sex in set)
+            //
+            for(int i = 0; i < set.Count-1; i++)
             {
-                res += ((sex.Number+1).ToString() + "-");
+                for (int j = 0; j < set.Count; j++)
+                {
+                    if (set[i].ConnectedByStep(set[j])) set.RemoveAt(j);
+                }
             }
+            //
+            foreach (var sex in set)
+            {
+                res += ((sex.Number + 1).ToString() + "-");
+            }
+            //
             MessageBox.Show(res);
             return set;
         }
@@ -240,8 +250,8 @@ namespace Kursovaya_dotNET
                 {
                     if (point.ConnectedByStep(pt))
                     {
-                    if(set.IndexOf(pt)!=0)
-                    set.Remove(pt);
+                    //if(set.IndexOf(pt)!=0)
+                    //set.Remove(pt);
                     }    
                     else
                     {
