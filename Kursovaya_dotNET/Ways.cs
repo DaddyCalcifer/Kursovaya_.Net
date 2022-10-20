@@ -16,14 +16,18 @@ namespace Kursovaya_dotNET
         { get { return end; } set { end = value; } }
         public int Name
         { get { return name; } set { name = value; } }
+        public List<PointCH> Points = new List<PointCH>();
+
         public Way() { }
         public Way(PointCH beg_, PointCH end_, int nm)
         {
             Begin = beg_; End = end_; Name = nm;
+            Points.Add(Begin); Points.Add(End);
         }
         public Way(Way way)
         {
             Begin = way.Begin; End = way.End; Name = way.Name;
+            Points.Add(Begin); Points.Add(End);
         }
     }
 }

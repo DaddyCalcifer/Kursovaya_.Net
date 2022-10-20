@@ -156,6 +156,8 @@ namespace Kursovaya_dotNET
                         graph.on_this_point = -1;
                         graph.first_point = -1;
                         graph.PointsList.ClearSelected();
+                        button3.Enabled = false;
+                       // graph.DoConnections(graph.Ways);
                     }
                 }
                 else
@@ -182,6 +184,7 @@ namespace Kursovaya_dotNET
             if (graph.PointsList.SelectedIndex >= 0)
             {
                 button3.Enabled = true;
+                button5.Enabled = false;
                 graph.SelectPoint(graph.PointsList.SelectedIndex);
                 graph.WaysList.ClearSelected();
             }
@@ -198,6 +201,7 @@ namespace Kursovaya_dotNET
             if (graph.WaysList.SelectedIndex >= 0)
             {
                 button5.Enabled = true;
+                button3.Enabled = false;
                 graph.PointsList.ClearSelected();
             }
         }
@@ -272,6 +276,13 @@ namespace Kursovaya_dotNET
             }
             if (e.KeyCode == Keys.Space)
                 MessageBox.Show("xuq");
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Точка 1 связана с точкой 2 через: " + graph.Points[0].ConnectedVia(graph.Points[1]));
+            if(graph.Points.Count >0)
+            graph.FindIndependentSets();
         }
     }
 }

@@ -116,6 +116,23 @@ namespace Kursovaya_dotNET
                 //
                 start.ways.Add(tempo_way);
                 end.ways.Add(tempo_way);
+
+                //if(start.connected.Contains(end)==false) start.connected.Add(end);
+                //if(end.connected.Contains(start)==false) end.connected.Add(start);
+
+                //for (int i = 0; i < end.connected.Count; i++)
+                //{
+                //    //MessageBox.Show(end.connected.Count.ToString());
+                //    if (start.connected.Contains(end.connected[i])==false
+                //        && end.connected[i] != start)
+                //        start.connected.Add(end.connected[i]);
+                //}
+                //for (int i = 0; i < start.connected.Count; i++)
+                //{
+                //    if (end.connected.Contains(start.connected[i]) == false
+                //        && start.connected[i] != end)
+                //        end.connected.Add(start.connected[i]);
+                //}
                 //
                 if (GraphOnly == false)
                 {
@@ -127,10 +144,37 @@ namespace Kursovaya_dotNET
                 //
                 DrawPoint(pen, new Rectangle(start.X - radius / 2, start.Y - radius / 2, radius, radius), start.Number, false);
                 DrawPoint(pen, new Rectangle(end.X - radius / 2, end.Y - radius / 2, radius, radius), end.Number, false);
+                g.DrawString(tempo_way.Name.ToString(), SystemFonts.MenuFont, Brushes.Black, new PointF(Math.Abs((float)start.X + end.X)/2-25, Math.Abs((float)start.Y + end.Y)/2-25));
                 //
                 MainPicture.Image = bmp;
             }
         }
+        /*public void DoConnections(List<Way> ws)
+        {
+            foreach (var k in ws)
+            {
+                if (k.Begin != k.End)
+                {
+                    //
+                    if (k.Begin.connected.Contains(k.End) == false) k.Begin.connected.Add(k.End);
+                    if (k.End.connected.Contains(k.Begin) == false) k.End.connected.Add(k.Begin);
+
+                    for (int i = 0; i < k.End.connected.Count; i++)
+                    {
+                        //MessageBox.Show(k.End.connected.Count.ToString());
+                        if (k.Begin.connected.Contains(k.End.connected[i]) == false
+                            && k.End.connected[i] != k.Begin)
+                            k.Begin.connected.Add(k.End.connected[i]);
+                    }
+                    for (int i = 0; i < k.Begin.connected.Count; i++)
+                    {
+                        if (k.End.connected.Contains(k.Begin.connected[i]) == false
+                            && k.Begin.connected[i] != k.End)
+                            k.End.connected.Add(k.Begin.connected[i]);
+                    }
+                }
+            }
+        }*/
         public void RemoveWay(int index)
         {
             Ways.RemoveAt(index);
@@ -168,6 +212,44 @@ namespace Kursovaya_dotNET
             DrawPoints();
             DrawWays();
             first_point = -1;
+        }
+
+        public List<PointCH> FindIndependentSets(List<PointCH> pts = null,int index_=0)
+        {
+            string res = "";
+            if (pts == null) pts = Points;
+            var set = new List<PointCH>();
+            set.Add(pts[index_]);
+            for (int i = 0; i < pts.Count; i++) //По всем точкам
+            {
+                if(i != index_)
+                    set= FindIndependentSets(pts[i], set);
+            }
+            foreach(var sex in set)
+            {
+                res += ((sex.Number+1).ToString() + "-");
+            }
+            MessageBox.Show(res);
+            return set;
+        }
+        public List<PointCH> FindIndependentSets(PointCH pt, List<PointCH> indexes)
+        {
+            List<PointCH> set = new List<PointCH>();
+            set.AddRange(indexes);
+                foreach(var point in indexes)
+                {
+                    if (point.ConnectedByStep(pt))
+                    {
+                    if(set.IndexOf(pt)!=0)
+                    set.Remove(pt);
+                    }    
+                    else
+                    {
+                        if(set.Contains(pt) == false)
+                            set.Add(pt);
+                    }
+                }
+            return set;
         }
     }
 }
