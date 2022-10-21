@@ -23,11 +23,27 @@ namespace Kursovaya_dotNET
         {
             Begin = beg_; End = end_; Name = nm;
             Points.Add(Begin); Points.Add(End);
+            /*
+            if(this.Points[0].Number < this.Points[1].Number)
+            {
+                int tempo = this.Points[0].Number;
+                this.Points[0].Number = this.Points[1].Number;
+                this.Points[1].Number = tempo;
+            }
+            */
         }
         public Way(Way way)
         {
             Begin = way.Begin; End = way.End; Name = way.Name;
             Points.Add(Begin); Points.Add(End);
+            /*
+            if (this.Points[0].Number < this.Points[1].Number)
+            {
+                int tempo = this.Points[0].Number;
+                this.Points[0].Number = this.Points[1].Number;
+                this.Points[1].Number = tempo;
+            }
+            */
         }
     }
 }

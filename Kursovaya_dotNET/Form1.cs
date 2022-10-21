@@ -291,6 +291,8 @@ namespace Kursovaya_dotNET
                     sets.Add(graph.FindIndependentSets(null,i));
                 }
             }
+            MaxIndSets form2 = new MaxIndSets(ref sets);
+            form2.ShowDialog();
         }
     }
 }
