@@ -14,9 +14,9 @@ namespace Kursovaya_dotNET
     {
         //Элементы графики
         public Bitmap bmp;
-        public Pen pen = new Pen(Color.Black, 20);
+        public Pen pen = new Pen(Color.White, 20);
         public Pen pen_selected = new Pen(Color.CadetBlue, 20);
-        public Pen pen_way = new Pen(Color.Green, 7);
+        public Pen pen_way = new Pen(Color.DarkSlateGray, 7);
         public int radius = 20;
 
         //Массивы точек и рёбер
@@ -54,7 +54,7 @@ namespace Kursovaya_dotNET
             //
             Graphics g = Graphics.FromImage(bmp);
             g.DrawEllipse(pen, rect);
-            g.DrawString((ind + 1).ToString(), SystemFonts.MenuFont, Brushes.White, new PointF((float)rect.X + radius / 4f, (float)rect.Y + radius / 4f));
+            g.DrawString((ind + 1).ToString(), SystemFonts.DefaultFont, Brushes.Black, new PointF((float)rect.X + radius / 4f, (float)rect.Y + radius / 4f));
             MainPicture.Image = bmp;
         }
         public void ClearPoints(bool GraphOnly = false)
@@ -127,7 +127,7 @@ namespace Kursovaya_dotNET
 
                 DrawPoint(pen, new Rectangle(start.X - radius / 2, start.Y - radius / 2, radius, radius), start.Number, false);
                 DrawPoint(pen, new Rectangle(end.X - radius / 2, end.Y - radius / 2, radius, radius), end.Number, false);
-                g.DrawString(tempo_way.Name.ToString(), SystemFonts.MenuFont, Brushes.Black, new PointF(Math.Abs((float)start.X + end.X)/2-25, Math.Abs((float)start.Y + end.Y)/2-25));
+                //g.DrawString(tempo_way.Name.ToString(), SystemFonts.MenuFont, Brushes.Black, new PointF(Math.Abs((float)start.X + end.X)/2-25, Math.Abs((float)start.Y + end.Y)/2-25));
 
                 MainPicture.Image = bmp;
             }

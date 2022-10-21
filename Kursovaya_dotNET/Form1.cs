@@ -309,6 +309,89 @@ namespace Kursovaya_dotNET
                 }
             }
         }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Вы уверены что хотите выйти из ChGraph?", "Подтвердите действие", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void ChangeWinFormButton_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                return;
+            }
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                return;
+            }
+        }
+
+        private void minimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void topBorder_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                return;
+            }
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                return;
+            }
+        }
+        Point MouseHook = new Point();
+        private void topBorder_MouseMove(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Default;
+            if (e.Button != MouseButtons.Left) MouseHook = e.Location;
+            else
+            {
+                Cursor = Cursors.Hand;
+                Location = new Point((Size)Location - (Size)MouseHook + (Size)e.Location);
+            }
+        }
+
+        private void ExitButton_MouseEnter(object sender, EventArgs e)
+        {
+            ExitButton.BackColor = Color.Red;
+        }
+
+        private void ExitButton_MouseLeave(object sender, EventArgs e)
+        {
+            ExitButton.BackColor = Color.Transparent;
+        }
+
+        private void ChangeWinFormButton_MouseEnter(object sender, EventArgs e)
+        {
+            ChangeWinFormButton.BackColor = Color.DarkGray;
+        }
+
+        private void ChangeWinFormButton_MouseLeave(object sender, EventArgs e)
+        {
+            ChangeWinFormButton.BackColor = Color.Transparent;
+        }
+
+        private void minimizeButton_MouseEnter(object sender, EventArgs e)
+        {
+            minimizeButton.BackColor = Color.DarkGray;
+        }
+
+        private void minimizeButton_MouseLeave(object sender, EventArgs e)
+        {
+            minimizeButton.BackColor = Color.Transparent;
+        }
     }
 }
     
