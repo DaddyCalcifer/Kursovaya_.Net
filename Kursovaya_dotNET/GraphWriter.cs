@@ -180,6 +180,24 @@ namespace Kursovaya_dotNET
             first_point = -1;
         }
 
+        public List<PointCH> SetSort(List<PointCH> mas)
+        {
+            PointCH temp;
+            for (int i = 0; i < mas.Count; i++)
+            {
+                for (int j = i + 1; j < mas.Count; j++)
+                {
+                    if (mas[i].Number > mas[j].Number)
+                    {
+                        temp = mas[i];
+                        mas[i] = mas[j];
+                        mas[j] = temp;
+                    }
+                }
+            }
+            return mas;
+        }
+
         public List<PointCH> FindIndependentSets(List<PointCH> pts = null,int index_=0)
         {
             if (pts == null) pts = Points;
@@ -187,8 +205,10 @@ namespace Kursovaya_dotNET
             set.Add(pts[index_]);
             for (int i = 0; i < pts.Count; i++) //По всем точкам
             {
-                if(i != index_)
-                    set= FindIndependentSets(pts[i], set);
+                if (i != index_)
+                {
+                    set = FindIndependentSets(pts[i], set);
+                }
             }
             //
             for(int i = 0; i < set.Count; i++)
@@ -213,20 +233,35 @@ namespace Kursovaya_dotNET
         {
             List<PointCH> set = new List<PointCH>();
             set.AddRange(indexes);
-                foreach(var point in indexes)
+            foreach (var point in indexes)
+            {
+                if (point.ConnectedByStep(pt) == false)
                 {
-                    if (point.ConnectedByStep(pt)==false)
-                    {
                     //if(set.IndexOf(pt)!=0)
                     //set.Remove(pt);
                     //}    
                     //else
                     //{
-                        if(set.Contains(pt) == false)
-                            set.Add(pt);
+                    if (set.Contains(pt) == false)
+                    {
+                        set.Add(pt);
                     }
                 }
+            }
             return set;
+        }
+        public List<List<PointCH>> AllIndependentSets(List<PointCH> ptss=null)
+        {
+            if (ptss == null) ptss = this.Points;
+            List<List<PointCH>> sets = new List<List<PointCH>>();
+            if (ptss.Count > 0)
+            {
+                for (int i = 0; i < ptss.Count; i++)
+                {
+                    sets.Add(SetSort(FindIndependentSets(null, i)));
+                }
+            }
+            return sets;
         }
     }
 }

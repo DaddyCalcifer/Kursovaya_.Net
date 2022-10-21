@@ -254,14 +254,7 @@ namespace Kursovaya_dotNET
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            List<List<PointCH>> sets = new List<List<PointCH>>();
-            if (graph.Points.Count > 0)
-            {
-                for (int i = 0; i < graph.Points.Count; i++)
-                {
-                    sets.Add(graph.FindIndependentSets(null,i));
-                }
-            }
+            var sets = graph.AllIndependentSets();
             MaxIndSets form2 = new MaxIndSets(ref sets);
             form2.ShowDialog();
             PointsList.Focus();
@@ -283,16 +276,22 @@ namespace Kursovaya_dotNET
                 button3.Enabled = false;
                 button5.Enabled = false;
             }
-            if(e.KeyCode == Keys.Return) //Открыть результаты
+            if (e.KeyCode == Keys.F12)
             {
-                List<List<PointCH>> sets = new List<List<PointCH>>();
-                if (graph.Points.Count > 0)
+                if (this.WindowState == FormWindowState.Normal)
                 {
-                    for (int i = 0; i < graph.Points.Count; i++)
-                    {
-                        sets.Add(graph.FindIndependentSets(null, i));
-                    }
+                    this.WindowState = FormWindowState.Maximized;
+                    return;
                 }
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    this.WindowState = FormWindowState.Normal;
+                    return;
+                }
+            }
+            if (e.KeyCode == Keys.Return) //Открыть результаты
+            {
+                var sets = graph.AllIndependentSets();
                 MaxIndSets form2 = new MaxIndSets(ref sets);
                 form2.ShowDialog();
                 PointsList.Focus();
@@ -354,12 +353,16 @@ namespace Kursovaya_dotNET
         Point MouseHook = new Point();
         private void topBorder_MouseMove(object sender, MouseEventArgs e)
         {
-            Cursor = Cursors.Default;
-            if (e.Button != MouseButtons.Left) MouseHook = e.Location;
-            else
+            if (this.WindowState == FormWindowState.Normal)
             {
-                Cursor = Cursors.Hand;
-                Location = new Point((Size)Location - (Size)MouseHook + (Size)e.Location);
+                if (e.Button != MouseButtons.Left)
+                {
+                    MouseHook = e.Location;
+                }
+                else
+                {
+                    Location = new Point((Size)Location - (Size)MouseHook + (Size)e.Location);
+                }
             }
         }
 
@@ -391,6 +394,24 @@ namespace Kursovaya_dotNET
         private void minimizeButton_MouseLeave(object sender, EventArgs e)
         {
             minimizeButton.BackColor = Color.Transparent;
+        }
+
+        private void topBorder_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && this.Location.Y < 0 && this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                this.Location = new Point(300,200);
+                //return;
+            }
+            if(this.Cursor == Cursors.Hand)
+                this.Cursor = Cursors.Default;
+        }
+
+        private void topBorder_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Normal)
+                Cursor = Cursors.Hand;
         }
     }
 }

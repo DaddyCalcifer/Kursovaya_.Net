@@ -222,13 +222,15 @@
             this.topBorder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.topBorder.BackColor = System.Drawing.Color.Transparent;
-            this.topBorder.Location = new System.Drawing.Point(1, 1);
+            this.topBorder.Location = new System.Drawing.Point(-3, -8);
             this.topBorder.Name = "topBorder";
-            this.topBorder.Size = new System.Drawing.Size(744, 22);
+            this.topBorder.Size = new System.Drawing.Size(748, 39);
             this.topBorder.TabIndex = 18;
             this.topBorder.TabStop = false;
             this.topBorder.DoubleClick += new System.EventHandler(this.topBorder_DoubleClick);
+            this.topBorder.MouseDown += new System.Windows.Forms.MouseEventHandler(this.topBorder_MouseDown);
             this.topBorder.MouseMove += new System.Windows.Forms.MouseEventHandler(this.topBorder_MouseMove);
+            this.topBorder.MouseUp += new System.Windows.Forms.MouseEventHandler(this.topBorder_MouseUp);
             // 
             // minimizeButton
             // 
