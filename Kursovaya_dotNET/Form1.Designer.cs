@@ -71,6 +71,7 @@
             this.PointsList.Size = new System.Drawing.Size(191, 244);
             this.PointsList.TabIndex = 1;
             this.PointsList.SelectedIndexChanged += new System.EventHandler(this.PointsList_SelectedIndexChanged);
+            this.PointsList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PointsList_KeyDown);
             // 
             // label_Points
             // 
@@ -87,11 +88,11 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(539, 559);
+            this.button1.Location = new System.Drawing.Point(510, 559);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 25);
+            this.button1.Size = new System.Drawing.Size(104, 25);
             this.button1.TabIndex = 3;
-            this.button1.Text = "Очистить";
+            this.button1.Text = "Очистить [F5]";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -103,7 +104,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(191, 25);
             this.button3.TabIndex = 5;
-            this.button3.Text = "Удалить точку";
+            this.button3.Text = "Удалить точку [Del]";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -169,6 +170,7 @@
             this.WaysList.Size = new System.Drawing.Size(191, 196);
             this.WaysList.TabIndex = 10;
             this.WaysList.SelectedIndexChanged += new System.EventHandler(this.WaysList_SelectedIndexChanged);
+            this.WaysList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WaysList_KeyDown);
             // 
             // button5
             // 
@@ -178,7 +180,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(191, 25);
             this.button5.TabIndex = 12;
-            this.button5.Text = "Удалить ребро";
+            this.button5.Text = "Удалить ребро [Del]";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -188,9 +190,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Location = new System.Drawing.Point(12, 559);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(521, 25);
+            this.button2.Size = new System.Drawing.Size(492, 25);
             this.button2.TabIndex = 13;
-            this.button2.Text = "Поиск максимального незавсимого множества";
+            this.button2.Text = "Поиск максимального незавсимого множества [Enter]";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 

@@ -134,6 +134,7 @@ namespace Kursovaya_dotNET
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            PointsList.Focus();
             if (editCheckBox.Checked == false && addWaysCheckBox.Checked == false && e.Button == MouseButtons.Left)
             {
                 //
@@ -179,6 +180,8 @@ namespace Kursovaya_dotNET
         private void button1_Click(object sender, EventArgs e)
         {
             graph.ClearPoints();
+            button3.Enabled = false;
+            button5.Enabled = false;
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -188,6 +191,7 @@ namespace Kursovaya_dotNET
         {
             graph.RemovePoint(PointsList.SelectedIndex);
             button3.Enabled = false;
+            PointsList.Focus();
         }
         private void PointsList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -199,13 +203,12 @@ namespace Kursovaya_dotNET
                 graph.WaysList.ClearSelected();
             }
         }
-        private void button4_Click(object sender, EventArgs e)
-        {
-        }
-        private void button5_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e) {}
+        private void button5_Click(object sender, EventArgs e) //Удаление ребра
         {
             graph.RemoveWay(graph.WaysList.SelectedIndex);
             button5.Enabled = false;
+            PointsList.Focus();
         }
         private void WaysList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -234,55 +237,20 @@ namespace Kursovaya_dotNET
                     }
                 }
         }
-
-        private void label_in_point_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void addWaysCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_Points_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        //
+        private void label_in_point_Click(object sender, EventArgs e) {}
+        private void editCheckBox_CheckedChanged(object sender, EventArgs e){}
+        private void addWaysCheckBox_CheckedChanged(object sender, EventArgs e){}
+        private void label_Points_Click(object sender, EventArgs e){}
+        private void label1_Click(object sender, EventArgs e){}
+        private void Form1_Load(object sender, EventArgs e) {}
+        //
         private void MainPicture_SizeChanged(object sender, EventArgs e)
         {
             if(this.WindowState != FormWindowState.Minimized)
             graph.Redraw(MainPicture);
         }
-
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.Delete)
-            {
-                if(graph.PointsList.SelectedIndex >= 0)
-                    graph.RemovePoint(graph.PointsList.SelectedIndex);
-                if(graph.WaysList.SelectedIndex >= 0)
-                    graph.RemoveWay(graph.WaysList.SelectedIndex);
-            }
-            if (e.KeyCode == Keys.Space)
-                MessageBox.Show("xuq");
-        }
+        private void Form1_KeyDown(object sender, KeyEventArgs e){}
 
         private void button2_Click_1(object sender, EventArgs e)
         {
@@ -296,6 +264,50 @@ namespace Kursovaya_dotNET
             }
             MaxIndSets form2 = new MaxIndSets(ref sets);
             form2.ShowDialog();
+            PointsList.Focus();
+        }
+
+        private void PointsList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (graph.PointsList.SelectedIndex >= 0)
+                {
+                    graph.RemovePoint(graph.PointsList.SelectedIndex);
+                    button3.Enabled = false;
+                }
+            }
+            if (e.KeyCode == Keys.F5)
+            {
+                graph.ClearPoints();
+                button3.Enabled = false;
+                button5.Enabled = false;
+            }
+            if(e.KeyCode == Keys.Return) //Открыть результаты
+            {
+                List<List<PointCH>> sets = new List<List<PointCH>>();
+                if (graph.Points.Count > 0)
+                {
+                    for (int i = 0; i < graph.Points.Count; i++)
+                    {
+                        sets.Add(graph.FindIndependentSets(null, i));
+                    }
+                }
+                MaxIndSets form2 = new MaxIndSets(ref sets);
+                form2.ShowDialog();
+                PointsList.Focus();
+            }
+        }
+        private void WaysList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (graph.WaysList.SelectedIndex >= 0)
+                {
+                    graph.RemoveWay(graph.WaysList.SelectedIndex);
+                    button5.Enabled = false;
+                }
+            }
         }
     }
 }

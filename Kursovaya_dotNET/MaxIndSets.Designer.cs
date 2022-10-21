@@ -43,6 +43,8 @@
             this.MaximumSets.Name = "MaximumSets";
             this.MaximumSets.Size = new System.Drawing.Size(375, 159);
             this.MaximumSets.TabIndex = 0;
+            this.MaximumSets.SelectedIndexChanged += new System.EventHandler(this.MaximumSets_SelectedIndexChanged);
+            this.MaximumSets.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaximumSets_KeyDown);
             // 
             // OtherSets
             // 

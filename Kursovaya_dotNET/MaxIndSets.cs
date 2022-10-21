@@ -31,5 +31,15 @@ namespace Kursovaya_dotNET
                 MaximumSets.Items.Add("{" + showcase.TrimEnd(',') + " }");
             }
         }
+
+        private void MaximumSets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void MaximumSets_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Return)
+                this.Close();
+        }
     }
 }
