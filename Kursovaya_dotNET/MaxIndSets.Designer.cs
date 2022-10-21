@@ -41,7 +41,7 @@
             this.MaximumSets.ItemHeight = 31;
             this.MaximumSets.Location = new System.Drawing.Point(13, 38);
             this.MaximumSets.Name = "MaximumSets";
-            this.MaximumSets.Size = new System.Drawing.Size(295, 159);
+            this.MaximumSets.Size = new System.Drawing.Size(375, 159);
             this.MaximumSets.TabIndex = 0;
             // 
             // OtherSets
@@ -51,14 +51,14 @@
             this.OtherSets.ItemHeight = 31;
             this.OtherSets.Location = new System.Drawing.Point(13, 244);
             this.OtherSets.Name = "OtherSets";
-            this.OtherSets.Size = new System.Drawing.Size(295, 190);
+            this.OtherSets.Size = new System.Drawing.Size(375, 190);
             this.OtherSets.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(78, 10);
+            this.label1.Location = new System.Drawing.Point(127, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(165, 25);
             this.label1.TabIndex = 2;
@@ -68,7 +68,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(94, 216);
+            this.label2.Location = new System.Drawing.Point(142, 216);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(123, 25);
             this.label2.TabIndex = 3;
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 452);
+            this.ClientSize = new System.Drawing.Size(400, 452);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OtherSets);

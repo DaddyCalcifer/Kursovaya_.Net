@@ -193,11 +193,18 @@ namespace Kursovaya_dotNET
             //
             for(int i = 0; i < set.Count; i++)
             {
+                if (i < 0 || i >= set.Count) break;
                 for (int j = 0; j < set.Count; j++)
                 {
-                    if (set[i].ConnectedByStep(set[j]))
+                    if (j < 0 || j >= set.Count) break;
+                    //
+                    try { 
+                        if (set[i].ConnectedByStep(set[j]))
                         try { set.RemoveAt(j); }
                         catch { }
+                    }
+                    //catch(Exception ex) { MessageBox.Show(ex.Message); }
+                    catch { break; }
                 }
             }
             return set;
@@ -208,13 +215,13 @@ namespace Kursovaya_dotNET
             set.AddRange(indexes);
                 foreach(var point in indexes)
                 {
-                    if (point.ConnectedByStep(pt))
+                    if (point.ConnectedByStep(pt)==false)
                     {
                     //if(set.IndexOf(pt)!=0)
                     //set.Remove(pt);
-                    }    
-                    else
-                    {
+                    //}    
+                    //else
+                    //{
                         if(set.Contains(pt) == false)
                             set.Add(pt);
                     }

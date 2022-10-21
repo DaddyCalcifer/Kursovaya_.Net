@@ -134,19 +134,30 @@ namespace Kursovaya_dotNET
         }
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (editCheckBox.Checked == false && addWaysCheckBox.Checked == false)
+            if (editCheckBox.Checked == false && addWaysCheckBox.Checked == false && e.Button == MouseButtons.Left)
             {
+                //
+                for (int i = 0; i < graph.Points.Count; i++)
+                {
+                    var point = graph.Points[i];
+                    if (Math.Abs(e.X - point.X) <= graph.radius * 2 && Math.Abs(e.Y - point.Y) <= graph.radius * 2)
+                    {
+                        graph.SelectPoint(graph.on_this_point);
+                        graph.first_point = graph.on_this_point;
+                        graph.PointsList.SelectedIndex = graph.on_this_point;
+                        return;
+                    }
+                }
+                //
                 graph.DrawPoint(graph.pen, new Rectangle(e.X - graph.radius / 2, e.Y - graph.radius / 2, graph.radius, graph.radius), graph.Points.Count);
             }
-            if (editCheckBox.Checked || addWaysCheckBox.Checked)
-            {
+            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
                 if (graph.on_this_point != -1)
                 {
                     graph.SelectPoint(graph.on_this_point);
                     graph.PointsList.SelectedIndex = graph.on_this_point;
                 }
-            }
-            if(addWaysCheckBox.Checked)
+            if(e.Button == MouseButtons.Right) // Постройка рёбер
             {
                 if(graph.first_point != -1)
                 {
@@ -157,7 +168,6 @@ namespace Kursovaya_dotNET
                         graph.first_point = -1;
                         graph.PointsList.ClearSelected();
                         button3.Enabled = false;
-                       // graph.DoConnections(graph.Ways);
                     }
                 }
                 else
@@ -208,7 +218,6 @@ namespace Kursovaya_dotNET
         }
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (editCheckBox.Checked || addWaysCheckBox.Checked)
                 for (int i = 0; i < graph.Points.Count; i++)
                 {
                     var point = graph.Points[i];
@@ -224,10 +233,6 @@ namespace Kursovaya_dotNET
                         graph.on_this_point = -1;
                     }
                 }
-            else
-            {
-                
-            }
         }
 
         private void label_in_point_Click(object sender, EventArgs e)
@@ -270,7 +275,7 @@ namespace Kursovaya_dotNET
         {
             if(e.KeyCode == Keys.Delete)
             {
-                //if(graph.PointsList.SelectedIndex >= 0)
+                if(graph.PointsList.SelectedIndex >= 0)
                     graph.RemovePoint(graph.PointsList.SelectedIndex);
                 if(graph.WaysList.SelectedIndex >= 0)
                     graph.RemoveWay(graph.WaysList.SelectedIndex);
@@ -281,11 +286,9 @@ namespace Kursovaya_dotNET
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            //MessageBox.Show("Точка 1 связана с точкой 2 через: " + graph.Points[0].ConnectedVia(graph.Points[1]));
             List<List<PointCH>> sets = new List<List<PointCH>>();
             if (graph.Points.Count > 0)
             {
-                //graph.FindIndependentSets(null, 1);
                 for (int i = 0; i < graph.Points.Count; i++)
                 {
                     sets.Add(graph.FindIndependentSets(null,i));
