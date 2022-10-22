@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.PointsList = new System.Windows.Forms.ListBox();
             this.label_Points = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,6 +46,8 @@
             this.ChangeWinFormButton = new System.Windows.Forms.PictureBox();
             this.ExitButton = new System.Windows.Forms.PictureBox();
             this.MainPicture = new System.Windows.Forms.PictureBox();
+            this.SaveButton = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.topBorder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimizeButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChangeWinFormButton)).BeginInit();
@@ -60,12 +63,14 @@
             this.PointsList.ForeColor = System.Drawing.Color.White;
             this.PointsList.FormattingEnabled = true;
             this.PointsList.ItemHeight = 24;
-            this.PointsList.Location = new System.Drawing.Point(630, 56);
+            this.PointsList.Location = new System.Drawing.Point(630, 80);
             this.PointsList.Name = "PointsList";
-            this.PointsList.Size = new System.Drawing.Size(191, 220);
+            this.PointsList.Size = new System.Drawing.Size(191, 196);
             this.PointsList.TabIndex = 1;
+            this.PointsList.Click += new System.EventHandler(this.PointsList_Click);
             this.PointsList.SelectedIndexChanged += new System.EventHandler(this.PointsList_SelectedIndexChanged);
             this.PointsList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PointsList_KeyDown);
+            this.PointsList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PointsList_MouseUp);
             // 
             // label_Points
             // 
@@ -73,7 +78,7 @@
             this.label_Points.AutoSize = true;
             this.label_Points.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_Points.ForeColor = System.Drawing.Color.White;
-            this.label_Points.Location = new System.Drawing.Point(690, 28);
+            this.label_Points.Location = new System.Drawing.Point(690, 52);
             this.label_Points.Name = "label_Points";
             this.label_Points.Size = new System.Drawing.Size(76, 25);
             this.label_Points.TabIndex = 2;
@@ -112,7 +117,7 @@
             // 
             this.editCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editCheckBox.AutoSize = true;
-            this.editCheckBox.Location = new System.Drawing.Point(306, 37);
+            this.editCheckBox.Location = new System.Drawing.Point(304, 56);
             this.editCheckBox.Name = "editCheckBox";
             this.editCheckBox.Size = new System.Drawing.Size(89, 17);
             this.editCheckBox.TabIndex = 6;
@@ -126,18 +131,20 @@
             this.label_in_point.AutoSize = true;
             this.label_in_point.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_in_point.ForeColor = System.Drawing.Color.White;
-            this.label_in_point.Location = new System.Drawing.Point(12, 34);
+            this.label_in_point.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_in_point.Location = new System.Drawing.Point(12, 53);
             this.label_in_point.Name = "label_in_point";
             this.label_in_point.Size = new System.Drawing.Size(100, 20);
             this.label_in_point.TabIndex = 7;
             this.label_in_point.Text = "Вы в точке: ";
+            this.label_in_point.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label_in_point.Click += new System.EventHandler(this.label_in_point_Click);
             // 
             // addWaysCheckBox
             // 
             this.addWaysCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addWaysCheckBox.AutoSize = true;
-            this.addWaysCheckBox.Location = new System.Drawing.Point(426, 37);
+            this.addWaysCheckBox.Location = new System.Drawing.Point(434, 60);
             this.addWaysCheckBox.Name = "addWaysCheckBox";
             this.addWaysCheckBox.Size = new System.Drawing.Size(109, 17);
             this.addWaysCheckBox.TabIndex = 8;
@@ -175,6 +182,7 @@
             this.WaysList.TabIndex = 10;
             this.WaysList.SelectedIndexChanged += new System.EventHandler(this.WaysList_SelectedIndexChanged);
             this.WaysList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WaysList_KeyDown);
+            this.WaysList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WaysList_MouseUp);
             // 
             // button5
             // 
@@ -211,7 +219,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(229, 33);
+            this.label2.Location = new System.Drawing.Point(229, 56);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(385, 20);
             this.label2.TabIndex = 14;
@@ -222,9 +230,9 @@
             this.topBorder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.topBorder.BackColor = System.Drawing.Color.Transparent;
-            this.topBorder.Location = new System.Drawing.Point(-3, -8);
+            this.topBorder.Location = new System.Drawing.Point(190, -8);
             this.topBorder.Name = "topBorder";
-            this.topBorder.Size = new System.Drawing.Size(748, 39);
+            this.topBorder.Size = new System.Drawing.Size(569, 57);
             this.topBorder.TabIndex = 18;
             this.topBorder.TabStop = false;
             this.topBorder.DoubleClick += new System.EventHandler(this.topBorder_DoubleClick);
@@ -237,7 +245,7 @@
             this.minimizeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.minimizeButton.BackColor = System.Drawing.Color.Transparent;
             this.minimizeButton.Image = global::Kursovaya_dotNET.Properties.Resources.minimaze1;
-            this.minimizeButton.Location = new System.Drawing.Point(751, 0);
+            this.minimizeButton.Location = new System.Drawing.Point(760, 0);
             this.minimizeButton.Name = "minimizeButton";
             this.minimizeButton.Size = new System.Drawing.Size(22, 22);
             this.minimizeButton.TabIndex = 17;
@@ -251,7 +259,7 @@
             this.ChangeWinFormButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ChangeWinFormButton.BackColor = System.Drawing.Color.Transparent;
             this.ChangeWinFormButton.Image = global::Kursovaya_dotNET.Properties.Resources.full_or_min1;
-            this.ChangeWinFormButton.Location = new System.Drawing.Point(779, 0);
+            this.ChangeWinFormButton.Location = new System.Drawing.Point(784, 0);
             this.ChangeWinFormButton.Name = "ChangeWinFormButton";
             this.ChangeWinFormButton.Size = new System.Drawing.Size(22, 22);
             this.ChangeWinFormButton.TabIndex = 16;
@@ -280,15 +288,45 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainPicture.BackColor = System.Drawing.Color.Gray;
-            this.MainPicture.Location = new System.Drawing.Point(12, 57);
+            this.MainPicture.Location = new System.Drawing.Point(12, 80);
             this.MainPicture.Name = "MainPicture";
-            this.MainPicture.Size = new System.Drawing.Size(602, 546);
+            this.MainPicture.Size = new System.Drawing.Size(602, 523);
             this.MainPicture.TabIndex = 0;
             this.MainPicture.TabStop = false;
             this.MainPicture.SizeChanged += new System.EventHandler(this.MainPicture_SizeChanged);
             this.MainPicture.Click += new System.EventHandler(this.pictureBox1_Click);
             this.MainPicture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.MainPicture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.AutoSize = true;
+            this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SaveButton.ForeColor = System.Drawing.Color.White;
+            this.SaveButton.Location = new System.Drawing.Point(94, 3);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(90, 20);
+            this.SaveButton.TabIndex = 19;
+            this.SaveButton.Text = "Сохранить";
+            this.SaveButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            this.SaveButton.MouseEnter += new System.EventHandler(this.SaveButton_MouseEnter);
+            this.SaveButton.MouseLeave += new System.EventHandler(this.SaveButton_MouseLeave);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(12, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 20);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Открыть";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.MouseEnter += new System.EventHandler(this.label3_MouseEnter);
+            this.label3.MouseLeave += new System.EventHandler(this.label3_MouseLeave);
             // 
             // Form1
             // 
@@ -297,6 +335,8 @@
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(828, 667);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.topBorder);
             this.Controls.Add(this.minimizeButton);
             this.Controls.Add(this.ChangeWinFormButton);
@@ -316,6 +356,7 @@
             this.Controls.Add(this.MainPicture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "ChGraph";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -349,6 +390,8 @@
         private System.Windows.Forms.PictureBox ChangeWinFormButton;
         private System.Windows.Forms.PictureBox minimizeButton;
         private System.Windows.Forms.PictureBox topBorder;
+        private System.Windows.Forms.Label SaveButton;
+        private System.Windows.Forms.Label label3;
     }
 }
 

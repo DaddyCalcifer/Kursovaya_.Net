@@ -35,6 +35,7 @@ namespace Kursovaya_dotNET
             WaysList = ways_l;
             bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
         }
+        public GraphWriter() { }
         public void Redraw(PictureBox pic)
         {
             MainPicture.Width = pic.Width;
@@ -61,7 +62,7 @@ namespace Kursovaya_dotNET
         {
             bmp.Dispose();
             bmp = new Bitmap(MainPicture.Width, MainPicture.Height);
-            MainPicture.Image = bmp;
+            MainPicture.Image = null;
             if (GraphOnly == false)
             {
                 Points.Clear();
@@ -69,6 +70,7 @@ namespace Kursovaya_dotNET
                 Ways.Clear();
                 WaysList.Items.Clear();
             }
+            first_point = -1; on_this_point = -1;
         }
         public void RedrawGraph()
         {
@@ -109,10 +111,11 @@ namespace Kursovaya_dotNET
         }
         public void DrawWay(PointCH start, PointCH end, bool GraphOnly = false)
         {
+            var tempo_way = new Way(start, end, 1);
+
             if (start != end)
             {
                 Graphics g = Graphics.FromImage(bmp);
-                var tempo_way = new Way(start, end, 1);
 
                 start.ways.Add(tempo_way);
                 end.ways.Add(tempo_way);
@@ -250,17 +253,62 @@ namespace Kursovaya_dotNET
             }
             return set;
         }
+
+        public List<PointCH> ReversePoints(List<PointCH> sets)
+        {
+            List<PointCH> re_sets = new List<PointCH>();
+
+            for(int i = 0; i < sets.Count; i++)
+            {
+                re_sets.Add(sets[sets.Count-(i+1)]);
+            }
+
+            return re_sets;
+        }
+
         public List<List<PointCH>> AllIndependentSets(List<PointCH> ptss=null)
         {
             if (ptss == null) ptss = this.Points;
+
+            //В обычном порядке
             List<List<PointCH>> sets = new List<List<PointCH>>();
             if (ptss.Count > 0)
             {
                 for (int i = 0; i < ptss.Count; i++)
                 {
-                    sets.Add(SetSort(FindIndependentSets(null, i)));
+                    sets.Add(SetSort(FindIndependentSets(ptss, i)));
                 }
             }
+
+            //В обратном порядке
+            var re_pts = ReversePoints(ptss);
+            List<List<PointCH>> re_sets = new List<List<PointCH>>();
+            if (re_pts.Count > 0)
+            {
+                for (int i = 0; i < re_pts.Count; i++)
+                {
+                    re_sets.Add(SetSort(FindIndependentSets(re_pts, i)));
+                }
+            }
+            sets.AddRange(re_sets);
+
+            var st_counter = sets.Count;
+            for (int i = 0; i < st_counter; i++)
+            {
+                for (int j = 0; j < sets[i].Count; j++)
+                {
+                    for (int k = 0; k < sets[i].Count; k++)
+                    {
+                        if (sets[i][k].ConnectedByStep(sets[i][j]))
+                        {
+                            sets[i].Remove(sets[i][j]);
+                            //sets.Remove(sets[i]);
+                            //st_counter--;
+                        }
+                    }
+                }
+            }
+
             return sets;
         }
     }

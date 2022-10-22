@@ -36,14 +36,16 @@ namespace Kursovaya_dotNET
                 if (set.Count == max_ )
                 {
                     if (MaximumSets.Items.Contains("{" + showcase.TrimEnd(',') + " }") == false
-                    && OtherSets.Items.Contains("{" + showcase.TrimEnd(',') + " }") == false)
+                    && OtherSets.Items.Contains("{" + showcase.TrimEnd(',') + " }") == false
+                    && ("{" + showcase.TrimEnd(',') + " }").Length > 5)
                         MaximumSets.Items.Add("{" + showcase.TrimEnd(',') + " }");
                     else continue;
                 }
                 else
                 {
                     if (MaximumSets.Items.Contains("{" + showcase.TrimEnd(',') + " }") == false
-                    && OtherSets.Items.Contains("{" + showcase.TrimEnd(',') + " }") == false)
+                    && OtherSets.Items.Contains("{" + showcase.TrimEnd(',') + " }") == false
+                    && ("{" + showcase.TrimEnd(',') + " }").Length > 5)
                         OtherSets.Items.Add("{" + showcase.TrimEnd(',') + " }");
                     else continue;
                 }

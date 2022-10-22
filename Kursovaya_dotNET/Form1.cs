@@ -7,128 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace Kursovaya_dotNET
 {
     public partial class Form1 : Form
     {
         GraphWriter graph;
+        XmlSerializer xmlS = new XmlSerializer(typeof(GraphObj));
         public Form1()
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
             graph = new GraphWriter(MainPicture,PointsList,WaysList);
         }
-        /*
-        void DrawPoint(Pen pen, Rectangle rect, int ind, bool isNew = true)
-        {
-            if (isNew)
-            {
-                var tempo_point = new PointCH(rect.X + radius / 2, rect.Y + radius / 2, ind);
-                Points.Add(tempo_point);
-                PointsList.Items.Add("Точка " + (tempo_point.Number + 1).ToString()
-                    + " (" + (tempo_point.X).ToString() + "; " + (tempo_point.Y).ToString() + ")");
-            }
-            //
-            Graphics g = Graphics.FromImage(bmp);
-            g.DrawEllipse(pen, rect);
-            g.DrawString((ind+1).ToString(),SystemFonts.MenuFont,Brushes.White,new PointF((float)rect.X+radius/4f,(float)rect.Y+radius/4f));
-            pictureBox1.Image = bmp;
-        }
-        void ClearPoints(PictureBox pic,ListBox box, List<PointCH> points, bool GraphOnly=false)
-        {
-            bmp = new Bitmap(pic.Width, pic.Height);
-            pic.Image = bmp;
-            if (GraphOnly == false)
-            {
-                points.Clear();
-                box.Items.Clear();
-                Ways.Clear();
-                WaysList.Items.Clear();
-            }
-        }
-        void RedrawGraph(PictureBox pic, List<PointCH> points, List<Way> ways_)
-        {
-            bmp = new Bitmap(pic.Width, pic.Height);
-            pic.Image = bmp;
-            DrawPoints(pic, points);
-            DrawWays(pic, ways_);
-        }
-        void DrawPoints(PictureBox pic, List<PointCH> points)
-        {
-            foreach (PointCH item in points)
-            {
-                DrawPoint(pen,new Rectangle(item.X - radius / 2, item.Y - radius / 2, radius, radius),item.Number,false);
-            }
-        }
-        void DrawWays(PictureBox pic, List<Way> ways_)
-        {
-            foreach (Way item in Ways)
-            {
-                DrawWay(item.Begin,item.End,pictureBox1,true);
-            }
-        }
-        void SelectPoint(List<PointCH> pts, int index)
-        {
-            if (index >= 0)
-            {
-                var item = pts[index];
-                foreach (var point in Points)
-                    DrawPoint(pen, new Rectangle(point.X - radius / 2, point.Y - radius / 2, radius, radius), point.Number, false);
-                DrawPoint(pen_selected, new Rectangle(item.X - radius / 2, item.Y - radius / 2, radius, radius), item.Number, false);
-            }
-            else
-            {
-                PointsList.ClearSelected();
-                DrawPoints(pictureBox1, Points);
-            }
-        }
-        void DrawWay(PointCH start, PointCH end, PictureBox pic,bool GraphOnly=false)
-        {
-            if (start != end)
-            {
-                Graphics g = Graphics.FromImage(bmp);
-                var tempo_way = new Way(start, end, 1);
-                //
-                start.ways.Add(tempo_way);
-                end.ways.Add(tempo_way);
-                //
-                if (GraphOnly == false)
-                {
-                    WaysList.Items.Add((start.Number + 1).ToString() + " <-> " + (end.Number + 1).ToString());
-                    Ways.Add(tempo_way);
-                }
-                //
-                g.DrawLine(pen_way, start.X, start.Y, end.X, end.Y);
-                //
-                DrawPoint(pen, new Rectangle(start.X - radius / 2, start.Y - radius / 2, radius, radius), start.Number, false);
-                DrawPoint(pen, new Rectangle(end.X - radius / 2, end.Y - radius / 2, radius, radius), end.Number, false);
-                //
-                pic.Image = bmp;
-            }
-        }
-        void RemoveWay(List<Way> ways, int index)
-        {
-            ways.RemoveAt(index);
-            WaysList.Items.Clear();
-            foreach (var item in ways)
-            {
-                WaysList.Items.Add((item.Begin.Number + 1).ToString() + " <-> " + (item.End.Number + 1).ToString());
-            }
-            button5.Enabled = false;
-            RedrawGraph(pictureBox1, Points, Ways);
-        }
-        void RemoveWay(List<Way> ways, Way way)
-        {
-            ways.Remove(way);
-            WaysList.Items.Clear();
-            foreach (var item in ways)
-            {
-                WaysList.Items.Add((item.Begin.Number + 1).ToString() + " <-> " + (item.End.Number + 1).ToString());
-            }
-            button5.Enabled = false;
-        }
-        */
         private void pictureBox1_Click(object sender, EventArgs e)
         {
         }
@@ -311,7 +204,11 @@ namespace Kursovaya_dotNET
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Вы уверены что хотите выйти из ChGraph?", "Подтвердите действие", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = 
+                MessageBox.Show("Вы уверены что хотите выйти из ChGraph?", 
+                "Подтвердите действие", 
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
                 Application.Exit();
@@ -412,6 +309,168 @@ namespace Kursovaya_dotNET
         {
             if (this.WindowState == FormWindowState.Normal)
                 Cursor = Cursors.Hand;
+        }
+        public void SavePicture(Image picture)
+        {
+            if (picture != null)
+            {
+                SaveFileDialog savedialog = new SaveFileDialog();
+                savedialog.Title = "Сохранить граф как...";
+                savedialog.OverwritePrompt = true;
+                savedialog.CheckPathExists = true;
+                savedialog.Filter = "Изображение (*.PNG)|*.png|Файл графа (*.CHG)|*.chg";
+
+                if (savedialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (savedialog.FileName.EndsWith(".png")) {
+                        try
+                        {
+                            picture.Save(savedialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                            var dr = MessageBox.Show("Изображение успешно сохранено"
+                                + Environment.NewLine
+                                + "Просмотреть файл?", "Выполнено",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            if (dr == DialogResult.Yes)
+                                Process.Start(savedialog.FileName);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Невозможно сохранить изображение", "Ошибка!",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    if(savedialog.FileName.EndsWith(".chg"))
+                    {
+                        try
+                        {
+                            SaveXML(savedialog.FileName);
+                            var dr = MessageBox.Show("Граф успешно сохраненён", "Выполнено",
+                           MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Невозможно сохранить граф", "Ошибка!",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Невозможно сохранить граф - пустой файл", "Ошибка!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SavePicture(MainPicture.Image);
+        }
+
+        private void SaveButton_MouseEnter(object sender, EventArgs e)
+        {
+            SaveButton.BackColor = Color.Gray;
+        }
+
+        private void SaveButton_MouseLeave(object sender, EventArgs e)
+        {
+            SaveButton.BackColor = Color.Transparent;
+        }
+
+        private void PointsList_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void PointsList_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Y > PointsList.Items.Count * 24)
+            {
+                graph.SelectPoint(-1);
+                button3.Enabled = false;
+            }
+        }
+
+        private void WaysList_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Y > WaysList.Items.Count * 24)
+            {
+                WaysList.ClearSelected();
+                button5.Enabled = false;
+            }
+        }
+        void OpenXML(string path)
+        {
+            GraphObj grob = new GraphObj();
+            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
+            {
+                try { grob = xmlS.Deserialize(fs) as GraphObj; }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                fs.Close();
+            }
+            for (int i = 0; i < grob.X.Count; i++)
+            {
+                graph.DrawPoint(graph.pen, new Rectangle(grob.X[i] - graph.radius / 2, grob.Y[i] - graph.radius / 2, graph.radius, graph.radius), i);
+            }
+            for (int i = 0; i < grob.ways_p1.Count; i++)
+            {
+                graph.DrawWay(graph.Points[grob.ways_p1[i]], graph.Points[grob.ways_p2[i]],false);
+            }
+        }
+        void SaveXML(string path)
+        {
+            List<int> x_ = new List<int>();
+            List<int> y_ = new List<int>();
+
+            List<int> p1 = new List<int>();
+            List<int> p2 = new List<int>();
+
+            foreach (var item in graph.Points)
+            {
+                x_.Add(item.X);
+                y_.Add(item.Y);
+            }
+            foreach (var item in graph.Ways)
+            {
+                p1.Add(graph.Points.IndexOf(item.Begin));
+                p2.Add(graph.Points.IndexOf(item.End));
+            }
+            var graphObj = new GraphObj(x_, y_, p1, p2);
+            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
+            {
+                xmlS.Serialize(fs, graphObj);
+                fs.Close();
+            }
+        }
+        private void label3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog opfd = new OpenFileDialog();
+            opfd.Title = "Открыть файл графа...";
+            opfd.CheckPathExists = true;
+            opfd.Filter = "Файл графа (*.CHG)|*.chg";
+
+            if (opfd.ShowDialog() == DialogResult.OK)
+            {
+                graph.ClearPoints();
+                try
+                {
+                    OpenXML(opfd.FileName);
+                }
+                catch
+                {
+                    MessageBox.Show("Невозможно открыть файл", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void label3_MouseEnter(object sender, EventArgs e)
+        {
+            label3.BackColor = Color.Gray;
+        }
+
+        private void label3_MouseLeave(object sender, EventArgs e)
+        {
+            label3.BackColor = Color.Transparent;
         }
     }
 }
