@@ -71,6 +71,7 @@
             this.PointsList.SelectedIndexChanged += new System.EventHandler(this.PointsList_SelectedIndexChanged);
             this.PointsList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PointsList_KeyDown);
             this.PointsList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PointsList_MouseUp);
+            this.PointsList.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PointsList_PreviewKeyDown);
             // 
             // label_Points
             // 
@@ -212,6 +213,7 @@
             this.button2.Text = "Поиск максимального незавсимого множества [Enter]";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            this.button2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button2_MouseDown);
             // 
             // label2
             // 

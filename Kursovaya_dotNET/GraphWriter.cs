@@ -214,7 +214,7 @@ namespace Kursovaya_dotNET
                 }
             }
             //
-            for(int i = 0; i < set.Count; i++)
+            for (int i = 0; i < set.Count; i++)
             {
                 if (i < 0 || i >= set.Count) break;
                 for (int j = 0; j < set.Count; j++)
@@ -252,6 +252,60 @@ namespace Kursovaya_dotNET
                 }
             }
             return set;
+        }
+        public List<List<PointCH>> FindAllIndependentSets(List<PointCH> indexes)
+        {
+            List<PointCH> set = new List<PointCH>();
+            List<List<PointCH>> any_sets = new List<List<PointCH>>();
+            set.AddRange(indexes);
+
+            foreach (var pt in indexes)
+            {
+                foreach (var point in indexes)
+                {
+                    if (point.ConnectedByStep(pt) == false)
+                    {
+                        if (set.Contains(pt) == false)
+                        {
+                            set.Add(pt);
+                        }
+                        any_sets.Add(set);
+                    }
+                }
+                set.Clear();
+                set.AddRange(indexes);
+            }
+            foreach (var ind1 in indexes)
+            {
+                foreach (var ind2 in indexes)
+                {
+                    if (ind1.ConnectedByStep(ind2) == false && ind1 != ind2)
+                        any_sets.Add(new List<PointCH>() { ind1,ind2 });
+                }
+            }
+
+            Stack<PointCH> zaebalo = new Stack<PointCH>();
+            foreach (var item in SetSort(indexes))
+            {
+                zaebalo.Push(item);
+            }
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                List<PointCH> zaebalo2 = new List<PointCH>();
+                foreach (var item in zaebalo)
+                {
+                    zaebalo2.Add(item);
+                }
+                zaebalo.Pop();
+                any_sets.Add(zaebalo2);
+            }
+
+            for (int i = 0; i < any_sets.Count; i++)
+            {
+                any_sets[i] = SetSort(any_sets[i]);
+            }
+
+            return any_sets;
         }
 
         public List<PointCH> ReversePoints(List<PointCH> sets)
@@ -292,18 +346,33 @@ namespace Kursovaya_dotNET
             }
             sets.AddRange(re_sets);
 
-            var st_counter = sets.Count;
-            for (int i = 0; i < st_counter; i++)
+            sets.AddRange(FindAllIndependentSets(ptss));
+            sets.AddRange(FindAllIndependentSets(re_pts));
+            int sts = sets.Count;
+            for(int i = 0; i < sts; i++)
             {
-                for (int j = 0; j < sets[i].Count; j++)
+                sets.AddRange(FindAllIndependentSets(sets[i]));
+            }
+
+            for (int ij = 0; ij < 2; ij++)
+            {
+                var st_counter = sets.Count;
+                for (int i = 0; i < st_counter; i++)
                 {
-                    for (int k = 0; k < sets[i].Count; k++)
+                    for (int j = 0; j < sets[i].Count; j++)
                     {
-                        if (sets[i][k].ConnectedByStep(sets[i][j]))
+                        int popo = sets[i].Count;
+                        for (int k = 0; k < popo; k++)
                         {
-                            sets[i].Remove(sets[i][j]);
-                            //sets.Remove(sets[i]);
-                            //st_counter--;
+                            try
+                            {
+                                if (sets[i][k].ConnectedByStep(sets[i][j]))
+                                {
+                                    sets[i].Remove(sets[i][j]);
+                                    popo--;
+                                }
+                            }
+                            catch { }
                         }
                     }
                 }

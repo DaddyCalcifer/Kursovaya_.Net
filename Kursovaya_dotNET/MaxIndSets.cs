@@ -50,6 +50,8 @@ namespace Kursovaya_dotNET
                     else continue;
                 }
             }
+            MaximumSets.Sorted = true;
+            OtherSets.Sorted = true;
         }
 
         private void MaximumSets_SelectedIndexChanged(object sender, EventArgs e)

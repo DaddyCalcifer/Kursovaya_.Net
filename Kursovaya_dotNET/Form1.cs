@@ -57,6 +57,23 @@ namespace Kursovaya_dotNET
                 {
                     if(graph.on_this_point != -1)
                     {
+                        foreach (var item in graph.Ways)
+                        {
+                            if (item.Begin == graph.Points[graph.first_point]
+                                && item.End == graph.Points[graph.on_this_point] ||
+                                item.Begin == graph.Points[graph.on_this_point]
+                                && item.End == graph.Points[graph.first_point]
+)
+                            {
+                                graph.SelectPoint(graph.first_point);
+                                graph.on_this_point = -1;
+                                MessageBox.Show("Заданное ребро уже существует!", "Ошибка!",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                                return;
+                            }
+                        }
+
                         graph.DrawWay(graph.Points[graph.first_point], graph.Points[graph.on_this_point]);
                         graph.on_this_point = -1;
                         graph.first_point = -1;
@@ -150,6 +167,7 @@ namespace Kursovaya_dotNET
             var sets = graph.AllIndependentSets();
             MaxIndSets form2 = new MaxIndSets(ref sets);
             form2.ShowDialog();
+            button2.Text = "Поиск максимального незавсимого множества [Enter]";
             PointsList.Focus();
         }
 
@@ -184,9 +202,11 @@ namespace Kursovaya_dotNET
             }
             if (e.KeyCode == Keys.Return) //Открыть результаты
             {
+                button2.Text = "Поиск независимых множеств...";
                 var sets = graph.AllIndependentSets();
                 MaxIndSets form2 = new MaxIndSets(ref sets);
                 form2.ShowDialog();
+                button2.Text = "Поиск максимального незавсимого множества [Enter]";
                 PointsList.Focus();
             }
         }
@@ -471,6 +491,16 @@ namespace Kursovaya_dotNET
         private void label3_MouseLeave(object sender, EventArgs e)
         {
             label3.BackColor = Color.Transparent;
+        }
+
+        private void button2_MouseDown(object sender, MouseEventArgs e)
+        {
+            button2.Text = "Идёт поиск независимых множеств...";
+        }
+
+        private void PointsList_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            button2.Text = "Идёт поиск независимых множеств...";
         }
     }
 }
