@@ -284,20 +284,20 @@ namespace Kursovaya_dotNET
                 }
             }
 
-            Stack<PointCH> zaebalo = new Stack<PointCH>();
+            Stack<PointCH> points_stack = new Stack<PointCH>();
             foreach (var item in SetSort(indexes))
             {
-                zaebalo.Push(item);
+                points_stack.Push(item);
             }
             for (int i = 0; i < indexes.Count; i++)
             {
-                List<PointCH> zaebalo2 = new List<PointCH>();
-                foreach (var item in zaebalo)
+                List<PointCH> pts_list = new List<PointCH>();
+                foreach (var item in points_stack)
                 {
-                    zaebalo2.Add(item);
+                    pts_list.Add(item);
                 }
-                zaebalo.Pop();
-                any_sets.Add(zaebalo2);
+                points_stack.Pop();
+                any_sets.Add(pts_list);
             }
 
             for (int i = 0; i < any_sets.Count; i++)
