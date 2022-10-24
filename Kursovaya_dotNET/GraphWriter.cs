@@ -223,6 +223,7 @@ namespace Kursovaya_dotNET
                 p2.Add(this.Points.IndexOf(item.End));
             }
             var graphObj = new GraphObj(x_, y_, p1, p2);
+            if(System.IO.File.Exists(path)) System.IO.File.Delete(path);
             using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
             {
                 xmlS.Serialize(fs, graphObj);
