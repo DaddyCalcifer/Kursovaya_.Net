@@ -8,19 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Xml.Serialization;
 
 namespace Kursovaya_dotNET
 {
     public partial class Form1 : Form
     {
         GraphWriter graph;
-        XmlSerializer xmlS = new XmlSerializer(typeof(GraphObj));
+        GraphProcessor processor;
         public Form1()
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
             graph = new GraphWriter(MainPicture,PointsList,WaysList);
+            processor = new GraphProcessor(graph);
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -164,7 +164,8 @@ namespace Kursovaya_dotNET
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            var sets = graph.AllIndependentSets();
+            var sets = new List<List<PointCH>>();
+            sets = processor.AllIndependentSets(null,progressBar);
             MaxIndSets form2 = new MaxIndSets(ref sets);
             form2.ShowDialog();
             button2.Text = "Поиск максимального незавсимого множества [Enter]";
@@ -203,7 +204,7 @@ namespace Kursovaya_dotNET
             if (e.KeyCode == Keys.Return) //Открыть результаты
             {
                 button2.Text = "Поиск независимых множеств...";
-                var sets = graph.AllIndependentSets();
+                var sets = processor.AllIndependentSets(null,progressBar);
                 MaxIndSets form2 = new MaxIndSets(ref sets);
                 form2.ShowDialog();
                 button2.Text = "Поиск максимального незавсимого множества [Enter]";
@@ -363,7 +364,7 @@ namespace Kursovaya_dotNET
                     {
                         try
                         {
-                            SaveXML(savedialog.FileName);
+                            graph.SaveXML(savedialog.FileName);
                             var dr = MessageBox.Show("Граф успешно сохраненён", "Выполнено",
                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
@@ -418,49 +419,49 @@ namespace Kursovaya_dotNET
                 button5.Enabled = false;
             }
         }
-        void OpenXML(string path)
-        {
-            GraphObj grob = new GraphObj();
-            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
-            {
-                try { grob = xmlS.Deserialize(fs) as GraphObj; }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
-                fs.Close();
-            }
-            for (int i = 0; i < grob.X.Count; i++)
-            {
-                graph.DrawPoint(graph.pen, new Rectangle(grob.X[i] - graph.radius / 2, grob.Y[i] - graph.radius / 2, graph.radius, graph.radius), i);
-            }
-            for (int i = 0; i < grob.ways_p1.Count; i++)
-            {
-                graph.DrawWay(graph.Points[grob.ways_p1[i]], graph.Points[grob.ways_p2[i]],false);
-            }
-        }
-        void SaveXML(string path)
-        {
-            List<int> x_ = new List<int>();
-            List<int> y_ = new List<int>();
+        //void OpenXML(string path)
+        //{
+        //    GraphObj grob = new GraphObj();
+        //    using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
+        //    {
+        //        try { grob = xmlS.Deserialize(fs) as GraphObj; }
+        //        catch (Exception ex) { MessageBox.Show(ex.Message); }
+        //        fs.Close();
+        //    }
+        //    for (int i = 0; i < grob.X.Count; i++)
+        //    {
+        //        graph.DrawPoint(graph.pen, new Rectangle(grob.X[i] - graph.radius / 2, grob.Y[i] - graph.radius / 2, graph.radius, graph.radius), i);
+        //    }
+        //    for (int i = 0; i < grob.ways_p1.Count; i++)
+        //    {
+        //        graph.DrawWay(graph.Points[grob.ways_p1[i]], graph.Points[grob.ways_p2[i]],false);
+        //    }
+        //}
+        //void SaveXML(string path)
+        //{
+        //    List<int> x_ = new List<int>();
+        //    List<int> y_ = new List<int>();
 
-            List<int> p1 = new List<int>();
-            List<int> p2 = new List<int>();
+        //    List<int> p1 = new List<int>();
+        //    List<int> p2 = new List<int>();
 
-            foreach (var item in graph.Points)
-            {
-                x_.Add(item.X);
-                y_.Add(item.Y);
-            }
-            foreach (var item in graph.Ways)
-            {
-                p1.Add(graph.Points.IndexOf(item.Begin));
-                p2.Add(graph.Points.IndexOf(item.End));
-            }
-            var graphObj = new GraphObj(x_, y_, p1, p2);
-            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
-            {
-                xmlS.Serialize(fs, graphObj);
-                fs.Close();
-            }
-        }
+        //    foreach (var item in graph.Points)
+        //    {
+        //        x_.Add(item.X);
+        //        y_.Add(item.Y);
+        //    }
+        //    foreach (var item in graph.Ways)
+        //    {
+        //        p1.Add(graph.Points.IndexOf(item.Begin));
+        //        p2.Add(graph.Points.IndexOf(item.End));
+        //    }
+        //    var graphObj = new GraphObj(x_, y_, p1, p2);
+        //    using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
+        //    {
+        //        xmlS.Serialize(fs, graphObj);
+        //        fs.Close();
+        //    }
+        //}
         private void label3_Click(object sender, EventArgs e)
         {
             OpenFileDialog opfd = new OpenFileDialog();
@@ -473,7 +474,7 @@ namespace Kursovaya_dotNET
                 graph.ClearPoints();
                 try
                 {
-                    OpenXML(opfd.FileName);
+                    graph.OpenXML(opfd.FileName);
                 }
                 catch
                 {

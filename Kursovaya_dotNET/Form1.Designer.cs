@@ -48,6 +48,7 @@
             this.MainPicture = new System.Windows.Forms.PictureBox();
             this.SaveButton = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.topBorder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimizeButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChangeWinFormButton)).BeginInit();
@@ -330,6 +331,17 @@
             this.label3.MouseEnter += new System.EventHandler(this.label3_MouseEnter);
             this.label3.MouseLeave += new System.EventHandler(this.label3_MouseLeave);
             // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.BackColor = System.Drawing.Color.Gray;
+            this.progressBar.Location = new System.Drawing.Point(12, 609);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(602, 46);
+            this.progressBar.TabIndex = 22;
+            this.progressBar.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,6 +349,7 @@
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(828, 667);
             this.ControlBox = false;
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.topBorder);
@@ -394,6 +407,7 @@
         private System.Windows.Forms.PictureBox topBorder;
         private System.Windows.Forms.Label SaveButton;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }
 

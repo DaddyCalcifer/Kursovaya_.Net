@@ -54,6 +54,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphObj.cs" />
+    <Compile Include="GraphProcessor.cs" />
     <Compile Include="GraphWriter.cs">
       <SubType>Form</SubType>
     </Compile>
