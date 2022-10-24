@@ -386,22 +386,18 @@ namespace Kursovaya_dotNET
         {
             SavePicture(MainPicture.Image);
         }
-
         private void SaveButton_MouseEnter(object sender, EventArgs e)
         {
             SaveButton.BackColor = Color.Gray;
         }
-
         private void SaveButton_MouseLeave(object sender, EventArgs e)
         {
             SaveButton.BackColor = Color.Transparent;
         }
-
         private void PointsList_Click(object sender, EventArgs e)
         {
             
         }
-
         private void PointsList_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Y > PointsList.Items.Count * 24)
@@ -410,7 +406,6 @@ namespace Kursovaya_dotNET
                 button3.Enabled = false;
             }
         }
-
         private void WaysList_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Y > WaysList.Items.Count * 24)
@@ -419,49 +414,6 @@ namespace Kursovaya_dotNET
                 button5.Enabled = false;
             }
         }
-        //void OpenXML(string path)
-        //{
-        //    GraphObj grob = new GraphObj();
-        //    using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
-        //    {
-        //        try { grob = xmlS.Deserialize(fs) as GraphObj; }
-        //        catch (Exception ex) { MessageBox.Show(ex.Message); }
-        //        fs.Close();
-        //    }
-        //    for (int i = 0; i < grob.X.Count; i++)
-        //    {
-        //        graph.DrawPoint(graph.pen, new Rectangle(grob.X[i] - graph.radius / 2, grob.Y[i] - graph.radius / 2, graph.radius, graph.radius), i);
-        //    }
-        //    for (int i = 0; i < grob.ways_p1.Count; i++)
-        //    {
-        //        graph.DrawWay(graph.Points[grob.ways_p1[i]], graph.Points[grob.ways_p2[i]],false);
-        //    }
-        //}
-        //void SaveXML(string path)
-        //{
-        //    List<int> x_ = new List<int>();
-        //    List<int> y_ = new List<int>();
-
-        //    List<int> p1 = new List<int>();
-        //    List<int> p2 = new List<int>();
-
-        //    foreach (var item in graph.Points)
-        //    {
-        //        x_.Add(item.X);
-        //        y_.Add(item.Y);
-        //    }
-        //    foreach (var item in graph.Ways)
-        //    {
-        //        p1.Add(graph.Points.IndexOf(item.Begin));
-        //        p2.Add(graph.Points.IndexOf(item.End));
-        //    }
-        //    var graphObj = new GraphObj(x_, y_, p1, p2);
-        //    using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
-        //    {
-        //        xmlS.Serialize(fs, graphObj);
-        //        fs.Close();
-        //    }
-        //}
         private void label3_Click(object sender, EventArgs e)
         {
             OpenFileDialog opfd = new OpenFileDialog();
