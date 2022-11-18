@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kursovaya_dotNET
 {
+    [Serializable]
     public class GraphObj
     {
         public List<int> X = new List<int>();

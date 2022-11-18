@@ -53,11 +53,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphCH.cs" />
     <Compile Include="GraphObj.cs" />
     <Compile Include="GraphProcessor.cs" />
-    <Compile Include="GraphWriter.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GraphWriter.cs" />
     <Compile Include="MaxIndSets.cs">
       <SubType>Form</SubType>
     </Compile>

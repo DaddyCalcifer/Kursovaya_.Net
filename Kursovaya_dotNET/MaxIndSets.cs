@@ -13,6 +13,7 @@ namespace Kursovaya_dotNET
     public partial class MaxIndSets : Form
     {
         public List<List<PointCH>> Sets;
+        Point MouseHook = new Point();
         public MaxIndSets(ref List<List<PointCH>> sets_)
         {
             InitializeComponent();
@@ -63,7 +64,6 @@ namespace Kursovaya_dotNET
             if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Return)
                 this.Close();
         }
-        Point MouseHook  = new Point();
         private void MaxIndSets_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) MouseHook = e.Location;

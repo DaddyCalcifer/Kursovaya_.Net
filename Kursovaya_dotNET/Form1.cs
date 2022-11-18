@@ -21,6 +21,17 @@ namespace Kursovaya_dotNET
             this.WindowState = FormWindowState.Maximized;
             graph = new GraphWriter(MainPicture,PointsList,WaysList);
             processor = new GraphProcessor(graph);
+
+            //Функционал для того чтобы можно было в винде использовать "Открыть с помощью..."
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                if (args[1].EndsWith(".chg"))
+                    graph.OpenXML(args[1]);
+                if (args[1].EndsWith(".chg2"))
+                    graph.OpenXML(args[1],true);
+            }
+            //
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -203,7 +214,7 @@ namespace Kursovaya_dotNET
             }
             if (e.KeyCode == Keys.Return) //Открыть результаты
             {
-                button2.Text = "Поиск независимых множеств...";
+                button2.Text = "Идёт поиск независимых множеств...";
                 var sets = processor.AllIndependentSets(null,progressBar);
                 MaxIndSets form2 = new MaxIndSets(ref sets);
                 form2.ShowDialog();
@@ -339,13 +350,14 @@ namespace Kursovaya_dotNET
                 savedialog.Title = "Сохранить граф как...";
                 savedialog.OverwritePrompt = true;
                 savedialog.CheckPathExists = true;
-                savedialog.Filter = "Изображение (*.PNG)|*.png|Файл графа (*.CHG)|*.chg";
+                savedialog.Filter = "Изображение (*.PNG)|*.png|Файл графа (*.CHG)|*.chg|Бинарный файл графа (*.CHG2)|*.chg2";
 
                 if (savedialog.ShowDialog() == DialogResult.OK)
                 {
                     if (savedialog.FileName.EndsWith(".png")) {
                         try
                         {
+                            graph.SelectPoint(-1);
                             picture.Save(savedialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
                             var dr = MessageBox.Show("Изображение успешно сохранено"
                                 + Environment.NewLine
@@ -365,6 +377,20 @@ namespace Kursovaya_dotNET
                         try
                         {
                             graph.SaveXML(savedialog.FileName);
+                            var dr = MessageBox.Show("Граф успешно сохраненён", "Выполнено",
+                           MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Невозможно сохранить граф", "Ошибка!",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    if (savedialog.FileName.EndsWith(".chg2"))
+                    {
+                        try
+                        {
+                            graph.SaveXML(savedialog.FileName,true);
                             var dr = MessageBox.Show("Граф успешно сохраненён", "Выполнено",
                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
@@ -419,14 +445,17 @@ namespace Kursovaya_dotNET
             OpenFileDialog opfd = new OpenFileDialog();
             opfd.Title = "Открыть файл графа...";
             opfd.CheckPathExists = true;
-            opfd.Filter = "Файл графа (*.CHG)|*.chg";
+            opfd.Filter = "Файл графа (*.CHG)|*.chg|Бинарный файл графа (*.CHG2)|*.chg2";
 
             if (opfd.ShowDialog() == DialogResult.OK)
             {
                 graph.ClearPoints();
                 try
                 {
-                    graph.OpenXML(opfd.FileName);
+                    if(opfd.FileName.EndsWith(".chg"))
+                        graph.OpenXML(opfd.FileName);
+                    if (opfd.FileName.EndsWith(".chg2"))
+                        graph.OpenXML(opfd.FileName,true);
                 }
                 catch
                 {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Kursovaya_dotNET
 {
     public class PointCH
     {
+        
         private int x_, y_, Number_;
         public List<Way> ways = new List<Way> ();
         public int X

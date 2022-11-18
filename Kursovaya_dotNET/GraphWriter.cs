@@ -8,28 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Kursovaya_dotNET
 {
-    public class GraphWriter : Form
+    public class GraphWriter : GraphCH
     {
         //Элементы графики
-        public Bitmap bmp;
+        Bitmap bmp;
         public Pen pen = new Pen(Color.White, 20);
         public Pen pen_selected = new Pen(Color.CadetBlue, 20);
         public Pen pen_way = new Pen(Color.DarkSlateGray, 7);
         public int radius = 20;
 
-        //Массивы точек и рёбер
-        public List<PointCH> Points = new List<PointCH>();
-        public List<Way> Ways = new List<Way>();
         public int first_point = -1, on_this_point = -1;
 
         //Элементы интерфейса
-        public PictureBox MainPicture;
+        PictureBox MainPicture;
         public ListBox PointsList, WaysList;
 
         XmlSerializer xmlS = new XmlSerializer(typeof(GraphObj));
+        BinaryFormatter formatter = new BinaryFormatter();
 
         public GraphWriter(PictureBox main_pic,ListBox points_l,ListBox ways_l)
         {
@@ -186,15 +186,25 @@ namespace Kursovaya_dotNET
             first_point = -1;
         }
 
-        public void OpenXML(string path)
+        public void OpenXML(string path,bool binary=false)
         {
             GraphObj grob = new GraphObj();
-            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
+
+            if(binary==false)
+            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate)) //xml
             {
                 try { grob = xmlS.Deserialize(fs) as GraphObj; }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
                 fs.Close();
             }
+            else
+            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate)) //bin
+            {
+                try { grob = formatter.Deserialize(fs) as GraphObj; }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                fs.Close();
+            }
+
             for (int i = 0; i < grob.X.Count; i++)
             {
                 this.DrawPoint(this.pen, new Rectangle(grob.X[i] - this.radius / 2, grob.Y[i] - this.radius / 2, this.radius, this.radius), i);
@@ -204,7 +214,7 @@ namespace Kursovaya_dotNET
                 this.DrawWay(this.Points[grob.ways_p1[i]], this.Points[grob.ways_p2[i]], false);
             }
         }
-        public void SaveXML(string path)
+        public void SaveXML(string path,bool binary=false)
         {
             List<int> x_ = new List<int>();
             List<int> y_ = new List<int>();
@@ -224,6 +234,14 @@ namespace Kursovaya_dotNET
             }
             var graphObj = new GraphObj(x_, y_, p1, p2);
             if(System.IO.File.Exists(path)) System.IO.File.Delete(path);
+
+            if(binary)
+            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate)) //bin
+            {
+                formatter.Serialize(fs, graphObj);
+                fs.Close();
+            }
+            else
             using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.OpenOrCreate))
             {
                 xmlS.Serialize(fs, graphObj);

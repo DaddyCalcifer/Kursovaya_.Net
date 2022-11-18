@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace Kursovaya_dotNET
 {
-    public class GraphProcessor
+    public class GraphProcessor : GraphCH
     {
-        GraphWriter graph = new GraphWriter();
+        //GraphWriter graph = new GraphWriter();
 
         public GraphProcessor(GraphWriter grw)
         {
-            graph = grw;
+            this.Points = grw.Points;
+        }
+        public GraphProcessor(GraphCH grw)
+        {
+            this.Points = grw.Points;
         }
         public List<PointCH> SetSort(List<PointCH> mas)
         {
@@ -33,7 +37,7 @@ namespace Kursovaya_dotNET
         }
         public List<PointCH> FindIndependentSets(List<PointCH> pts = null, int index_ = 0)
         {
-            if (pts == null) pts = graph.Points;
+            if (pts == null) pts = Points; //graph
             var set = new List<PointCH>();
             set.Add(pts[index_]);
             for (int i = 0; i < pts.Count; i++) //По всем точкам
@@ -145,7 +149,7 @@ namespace Kursovaya_dotNET
         }
         public List<List<PointCH>> AllIndependentSets(List<PointCH> ptss = null, System.Windows.Forms.ProgressBar bar=null)
         {
-            if (ptss == null) ptss = graph.Points;
+            if (ptss == null) ptss = Points; //graph
             bar.Visible = true;
             //В обычном порядке
             List<List<PointCH>> sets = new List<List<PointCH>>();
